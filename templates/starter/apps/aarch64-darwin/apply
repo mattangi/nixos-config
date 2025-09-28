@@ -11,11 +11,19 @@ NC='\033[0m' # No Color
 # Determine the operating system
 export OS=$(uname)
 
+# Test if OS is Darwin
+if [[ "$OS" != "Darwin" ]]; then
+  echo -e "${RED}This script is coded only for MacOS${NC}"
+  exit 1
+fi
+
+<<COMMENTBLOCK
 # Primary network interface
 if [[ "$OS" != "Darwin" ]]; then
   export PRIMARY_IFACE=$(ip -o -4 route show to default | awk '{print $5}')
   echo -e "${GREEN}Found primary network interface $PRIMARY_IFACE${NC}"
 fi
+COMMENTBLOCK
 
 # Custom print function
 _print() {
@@ -35,6 +43,7 @@ _prompt() {
   read -r $variable
 }
 
+<<COMMENTBLOCK
 ask_for_star() {
   _print "${YELLOW}Would you like to support my work by starring my GitHub repo? yes/no [yes]: ${NC}"
   local response
@@ -50,6 +59,7 @@ ask_for_star() {
 }
 
 ask_for_star
+COMMENTBLOCK
 
 # Fetch username from the system
 export USERNAME=$(whoami)
@@ -78,6 +88,7 @@ if [[ -z "$GIT_NAME" ]]; then
   _prompt "${YELLOW}Please enter your name: ${NC}" GIT_NAME
 fi
 
+<<COMMENTBLOCK
 select_boot_disk() {
   local disks
   local _boot_disk
@@ -107,17 +118,18 @@ if [[ "$OS" != "Darwin" ]]; then
   export HOST_NAME
   select_boot_disk
 fi
+COMMENTBLOCK
 
 confirm_details() {
   _print "${GREEN}Username: $USERNAME"
   _print "Email: $GIT_EMAIL"
   _print "Name: $GIT_NAME${NC}"
 
-  if([[ "$OS" != "Darwin" ]]); then
-    _print "${GREEN}Primary interface: $PRIMARY_IFACE"
-    _print "Boot disk: $BOOT_DISK"
-    _print "Hostname: $HOST_NAME${NC}"
-  fi
+#  if([[ "$OS" != "Darwin" ]]); then
+#    _print "${GREEN}Primary interface: $PRIMARY_IFACE"
+#    _print "Boot disk: $BOOT_DISK"
+#    _print "Hostname: $HOST_NAME${NC}"
+#  fi
 
   _prompt "${YELLOW}Is this correct? yes/no: ${NC}" choice
 
@@ -142,20 +154,20 @@ confirm_details
 replace_tokens() {
   local file="$1"
   if [[ $(basename $1) != "apply" ]]; then
-    if [[ "$OS" == "Darwin" ]]; then
+#    if [[ "$OS" == "Darwin" ]]; then
       # macOS
       LC_ALL=C LANG=C sed -i '' -e "s/%USER%/$USERNAME/g" "$file"
       LC_ALL=C LANG=C sed -i '' -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
       LC_ALL=C LANG=C sed -i '' -e "s/%NAME%/$GIT_NAME/g" "$file"
-    else
+#    else
       # Linux or other
-      sed -i -e "s/%USER%/$USERNAME/g" "$file"
-      sed -i -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
-      sed -i -e "s/%NAME%/$GIT_NAME/g" "$file"
-      sed -i -e "s/%INTERFACE%/$PRIMARY_IFACE/g" "$file"
-      sed -i -e "s/%DISK%/$BOOT_DISK/g" "$file"
-      sed -i -e "s/%HOST%/$HOST_NAME/g" "$file"
-    fi
+#      sed -i -e "s/%USER%/$USERNAME/g" "$file"
+#      sed -i -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
+#      sed -i -e "s/%NAME%/$GIT_NAME/g" "$file"
+#      sed -i -e "s/%INTERFACE%/$PRIMARY_IFACE/g" "$file"
+#      sed -i -e "s/%DISK%/$BOOT_DISK/g" "$file"
+#      sed -i -e "s/%HOST%/$HOST_NAME/g" "$file"
+#    fi
   fi
 }
 
