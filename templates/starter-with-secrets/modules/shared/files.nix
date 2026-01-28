@@ -9,10 +9,6 @@
   #   text = githubPublicKey;
   # };
 
-  # Initializes Emacs with org-mode so we can tangle the main config
-  ".emacs.d/init.el" = {
-    text = builtins.readFile ../shared/config/emacs/init.el;
-  };
 
   # IMPORTANT: The Emacs configuration expects a config.org file at ~/.config/emacs/config.org
   # You can either:
