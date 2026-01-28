@@ -23,6 +23,7 @@ in
     enable = true;
     brews = pkgs.callPackage ./brews.nix {};
     casks = pkgs.callPackage ./casks.nix {};
+    masApps = pkgs.callPackage ./masapps.nix {};
     # onActivation.cleanup = "uninstall";
 
     # These app IDs are from using the mas CLI app
@@ -36,9 +37,6 @@ in
     # you may receive an error message "Redownload Unavailable with This Apple ID".
     # This message is safe to ignore. (https://github.com/dustinlyons/nixos-config/issues/83)
 
-    masApps = {
-      # "wireguard" = 1451685025;
-    };
   };
 
   # Enable home-manager
