@@ -40,12 +40,8 @@ let name = "%NAME%";
 
       # Emacs is my editor
       export ALTERNATE_EDITOR=""
-      export EDITOR="emacsclient -t"
-      export VISUAL="emacsclient -c -a emacs"
-
-      e() {
-          emacsclient -t "$@"
-      }
+      export EDITOR="nvim"
+      export VISUAL="nvim"
 
       # nix shortcuts
       shell() {
