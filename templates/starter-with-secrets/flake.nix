@@ -49,6 +49,9 @@
           echo "Running ${scriptName} for ${system}"
           exec ${self}/apps/${system}/${scriptName}
         '')}/bin/${scriptName}";
+        meta = {
+          description = "Run ${scriptName} for ${system}";
+        };
       };
       mkLinuxApps = system: {
         "apply" = mkApp "apply" system;
