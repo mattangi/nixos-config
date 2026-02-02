@@ -33,7 +33,7 @@ _prompt() {
 }
 
 insert_secrets_output() {
-  local pattern="outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, nixpkgs, disko, agenix } @inputs:"
+  local pattern="outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, nixpkgs, agenix } @inputs:"
   local insert_text="secrets "
 
   awk -v pat="$pattern" -v insert="$insert_text" '
@@ -75,17 +75,20 @@ EOF
       exit 0
   fi
 
-  # Find the start and end line numbers of the 'disko' block
-  START_LINE=$(grep -n 'disko = {' "$FILE_PATH" | head -n 1 | cut -d: -f1)
-  END_LINE=$(tail -n +$START_LINE "$FILE_PATH" | grep -n '};' | head -n 1 | cut -d: -f1)
-  END_LINE=$((START_LINE + END_LINE - 1))
-
-  # Create a new file with the insertion
+  # Insert secrets block right after the 'inputs = {' line
+  INPUTS_LINE=$(grep -n '^[[:space:]]*inputs[[:space:]]*=[[:space:]]*{' "$FILE_PATH" | head -n 1 | cut -d: -f1)
+  if [[ -z "$INPUTS_LINE" ]]; then
+      echo "Could not find 'inputs = {' in $FILE_PATH"
+      rm "$TEMP_FILE"
+      rm "${FILE_PATH}.bak"
+      exit 1
+  fi
   {
-      sed -n "1,${END_LINE}p" "$FILE_PATH"
+      sed -n "1,${INPUTS_LINE}p" "$FILE_PATH"
       cat "$TEMP_FILE"
-      sed -n "$((END_LINE + 1)),\$p" "$FILE_PATH"
+      sed -n "$((INPUTS_LINE + 1)),\$p" "$FILE_PATH"
   } > "${FILE_PATH}.new"
+
 
   # Replace the original file with the new file
   mv "${FILE_PATH}.new" "$FILE_PATH"
