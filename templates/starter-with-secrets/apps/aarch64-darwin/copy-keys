@@ -16,17 +16,20 @@ handle_no_usb() {
 
 mount_usb() {
   MOUNT_PATH=""
-  for dev in $(diskutil list | grep -o 'disk[0-9]'); do
-    MOUNT_PATH="$(diskutil info /dev/${dev} | grep \"Mount Point\" | awk -F: '{print $2}' | xargs)"
-    if [ -n "${MOUNT_PATH}" ]; then
-      echo -e "${GREEN}USB drive found at ${MOUNT_PATH}.${NC}"
-      break
+  # macOS에서 외장/USB 볼륨은 보통 /Volumes 아래에 마운트됨
+  for vol in /Volumes/*; do
+    [[ -d "$vol" ]] || continue
+    # 이 스크립트가 필요로 하는 키 파일이 실제로 있는 볼륨만 선택
+    if [[ -f "$vol/id_ed25519_agenix" && -f "$vol/id_ed25519_agenix.pub" \
+       && -f "$vol/id_ed25519_github" && -f "$vol/id_ed25519_github.pub" ]]; then
+      MOUNT_PATH="$vol"
+      echo -e "${GREEN}Key USB volume found at ${MOUNT_PATH}.${NC}"
+      return 0
     fi
   done
 
-  if [ -z "${MOUNT_PATH}" ]; then
-    echo -e "${RED}No USB drive found.${NC}"
-  fi
+  echo -e "${RED}No USB volume found that contains the required key files.${NC}"
+  return 1
 }
 
 copy_keys() {
