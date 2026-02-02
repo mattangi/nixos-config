@@ -9,8 +9,8 @@ username=${USER}
 export SSH_DIR=/Users/${username}/.ssh
 
 handle_no_usb() {
-  echo -e ${RED}No USB drive found or mounted.${NC}"
-  echo -e ${GREEN}If you have not yet set up your keys, run the script to generate new SSH keys.${NC}"
+  echo -e "${RED}No USB drive found or mounted.${NC}"
+  echo -e "${GREEN}If you have not yet set up your keys, run the script to generate new SSH keys.${NC}"
   exit 1
 }
 
@@ -30,14 +30,28 @@ mount_usb() {
 }
 
 copy_keys() {
-  if [ -n "${MOUNT_PATH}" ]; then
-    cp "${MOUNT_PATH}/id_ed25519_agenix.pub" ${SSH_DIR}
-    cp "${MOUNT_PATH}/id_ed25519_agenix" ${SSH_DIR}
-    chmod 600 ${SSH_DIR}/id_ed25519_{agenix,agenix.pub}
-  else
+  if [ -z "${MOUNT_PATH}" ]; then
     echo -e "${RED}No USB drive found. Aborting.${NC}"
     exit 1
   fi
+
+  # Ask before overwriting existing agenix keys (default: no)
+  if [[ -f "${SSH_DIR}/id_ed25519_agenix" || -f "${SSH_DIR}/id_ed25519_agenix.pub" ]]; then
+    echo -e "${RED}Existing agenix SSH key found at ${SSH_DIR}/id_ed25519_agenix (or .pub).${NC}"
+    read -r -p "Overwrite agenix SSH key from USB? yes/no [no]: " response
+    response=${response:-no}
+    if [[ ! "$response" =~ ^[Yy](es)?$ ]]; then
+      echo -e "${GREEN}Keeping existing agenix SSH key. Skipping overwrite.${NC}"
+      return 0
+    fi
+  fi
+
+  cp "${MOUNT_PATH}/id_ed25519_agenix.pub" "${SSH_DIR}/"
+  cp "${MOUNT_PATH}/id_ed25519_agenix" "${SSH_DIR}/"
+
+  # Private key should be 600. Public key can be 644.
+  chmod 600 "${SSH_DIR}/id_ed25519_agenix"
+  chmod 644 "${SSH_DIR}/id_ed25519_agenix.pub"
 }
 
 setup_ssh_directory() {
@@ -45,10 +59,21 @@ setup_ssh_directory() {
 }
 
 set_keys() {
-  cp ${MOUNT_PATH}/id_ed25519_github.pub ${SSH_DIR}/id_ed25519.pub
-  cp ${MOUNT_PATH}/id_ed25519_github ${SSH_DIR}/id_ed25519
-  chmod 600 ${SSH_DIR}/id_ed25519
-  chmod 644 ${SSH_DIR}/id_ed25519.pub
+  # If default SSH key already exists, ask before overwriting (default: no)
+  if [[ -f "${SSH_DIR}/id_ed25519" || -f "${SSH_DIR}/id_ed25519.pub" ]]; then
+    echo -e "${RED}Existing default SSH key found at ${SSH_DIR}/id_ed25519 (or .pub).${NC}"
+    read -r -p "Overwrite default SSH key with USB 'id_ed25519_github'? yes/no [no]: " response
+    response=${response:-no}
+    if [[ ! "$response" =~ ^[Yy](es)?$ ]]; then
+      echo -e "${GREEN}Keeping existing default SSH key. Skipping overwrite.${NC}"
+      return 0
+    fi
+  fi
+
+  cp "${MOUNT_PATH}/id_ed25519_github.pub" "${SSH_DIR}/id_ed25519.pub"
+  cp "${MOUNT_PATH}/id_ed25519_github" "${SSH_DIR}/id_ed25519"
+  chmod 600 "${SSH_DIR}/id_ed25519"
+  chmod 644 "${SSH_DIR}/id_ed25519.pub"
 }
 
 change_ownership() {
