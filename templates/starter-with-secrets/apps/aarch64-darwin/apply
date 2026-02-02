@@ -99,11 +99,11 @@ EOF
 }
 
 ask_for_star() {
-  _print "${YELLOW}Would you like to support my work by starring my GitHub repo? yes/no [yes]: ${NC}"
+  _print "${YELLOW}Would you like to support the original author (dustinlyons) by starring the upstream repo? yes/no [no]: ${NC}"
   local response
   read -r response
-  response=${response:-yes} # Set default response to 'yes' if input is empty
-  if [[ "$response" =~ ^[Yy](es)?$ ]] || [[ -z "$response" ]]; then
+  response=${response:-no} # default to 'no' if input is empty
+  if [[ "$response" =~ ^[Yy](es)?$ ]]; then
     if [[ "$OS" == "Darwin" ]]; then
       open "https://github.com/dustinlyons/nixos-config"
     else
