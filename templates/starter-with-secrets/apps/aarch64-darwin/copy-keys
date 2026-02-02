@@ -6,7 +6,7 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 username=${USER}
-export SSH_DIR=/Users/${username}/.ssh
+export SSH_DIR="${HOME}/.ssh"
 
 handle_no_usb() {
   echo -e "${RED}No USB drive found or mounted.${NC}"
