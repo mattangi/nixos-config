@@ -22,9 +22,9 @@ in
 
   homebrew = {
     enable = true;
-    brews = pkgs.callPackage ./brews.nix {};
-    casks = pkgs.callPackage ./casks.nix {};
-    masApps = pkgs.callPackage ./masapps.nix {};
+    brews = pkgs.callPackage ./packages/brewpkgs.nix {};
+    casks = pkgs.callPackage ./packages/caskpkgs.nix {};
+    masApps = pkgs.callPackage ./packages/maspkgs.nix {};
     # onActivation.cleanup = "uninstall";
 
     # These app IDs are from using the mas CLI app
@@ -46,7 +46,7 @@ in
     users.${user} = { pkgs, config, lib, ... }:{
       home = {
         enableNixpkgsReleaseCheck = false;
-        packages = pkgs.callPackage ./nixpkgs.nix {};
+        packages = pkgs.callPackage ./packages/nixpkgs.nix {};
         file = sharedFiles;
 
         stateVersion = "23.11";

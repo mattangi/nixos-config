@@ -37,7 +37,7 @@ let user = "%USER%"; in
   # Load configuration that is shared across systems
   environment.systemPackages = with pkgs; [
     agenix.packages."${pkgs.system}".default
-  ] ++ (import ../modules/nixpkgs.nix { inherit pkgs; });
+  ] ++ (import ../modules/packages/nixpkgs.nix { inherit pkgs; });
 
   system = {
     checks.verifyNixPath = false;
