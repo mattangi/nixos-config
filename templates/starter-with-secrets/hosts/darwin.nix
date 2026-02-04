@@ -5,8 +5,8 @@ let user = "%USER%"; in
 {
 
   imports = [
-    ../modules/darwin/secrets.nix
-    ../modules/darwin/home-manager.nix
+    ../modules/secrets.nix
+    ../modules/home-manager.nix
     ../../modules/shared
      agenix.darwinModules.default
   ];
@@ -37,7 +37,7 @@ let user = "%USER%"; in
   # Load configuration that is shared across systems
   environment.systemPackages = with pkgs; [
     agenix.packages."${pkgs.system}".default
-  ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; });
+  ] ++ (import ../modules/shared/packages.nix { inherit pkgs; });
 
   system = {
     checks.verifyNixPath = false;
