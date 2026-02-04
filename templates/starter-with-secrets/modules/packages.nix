@@ -46,7 +46,10 @@ with pkgs; [
   unrar
   unzip
   zsh-powerlevel10k
-  
+
+  # Darwin-specific utility
+  dockutil
+
   # Development tools
   curl
   gh
@@ -56,7 +59,7 @@ with pkgs; [
   lazygit
   fzf
   direnv
-  
+
   # Programming languages and runtimes
   go
   rustc
