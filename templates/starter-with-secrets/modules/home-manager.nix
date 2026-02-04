@@ -46,7 +46,7 @@ in
     users.${user} = { pkgs, config, lib, ... }:{
       home = {
         enableNixpkgsReleaseCheck = false;
-        packages = pkgs.callPackage ./packages.nix {};
+        packages = pkgs.callPackage ./nixpkgs.nix {};
         file = sharedFiles;
 
         stateVersion = "23.11";
