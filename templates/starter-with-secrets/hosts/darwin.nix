@@ -7,7 +7,7 @@ let user = "%USER%"; in
   imports = [
     ../modules/secrets.nix
     ../modules/home-manager.nix
-    ../../modules/shared
+    ../modules/default.nix
      agenix.darwinModules.default
   ];
 
