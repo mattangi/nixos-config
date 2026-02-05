@@ -1,7 +1,15 @@
 { agenix, config, pkgs, ... }:
 
-let user = "%USER%"; in
+let 
+  user = "%USER%"; 
 
+  # systemPackages에 들어있는 .app 들을 한 곳으로 모아둔 "env"
+  env = pkgs.buildEnv {
+    name = "nix-apps-env";
+    paths = config.environment.systemPackages;
+    pathsToLink = [ "/Applications" ];
+  };
+in
 {
 
   imports = [
@@ -11,6 +19,8 @@ let user = "%USER%"; in
      agenix.darwinModules.default
   ];
 
+  networking.hostName = "%HOST%";
+  
   # Setup user, packages, programs
   nix = {
     package = pkgs.nix;
@@ -77,5 +87,20 @@ let user = "%USER%"; in
         TrackpadThreeFingerDrag = true;
       };
     };
+
+    # Spotlight/Finder에서 Nix로 설치된 .app 이 잘 검색/노출되도록
+    # /Applications/Nix Apps 아래에 mkalias로 alias를 만들어준다.
+    activationScripts.applications.text = pkgs.lib.mkForce ''
+      echo "setting up /Applications..." >&2
+      rm -rf /Applications/Nix\ Apps
+      mkdir -p /Applications/Nix\ Apps
+
+      find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
+      while read -r src; do
+        app_name=$(basename "$src")
+        echo "copying $src" >&2
+        ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
+      done
+    '';
   };
 }

@@ -25,6 +25,10 @@ in
     brews = pkgs.callPackage ./packages/brewpkgs.nix {};
     casks = pkgs.callPackage ./packages/caskpkgs.nix {};
     masApps = pkgs.callPackage ./packages/maspkgs.nix {};
+
+    onActivation.cleanup = "zap";
+    onActivation.autoUpdate = true;
+    onActivation.upgrade = true;
     # onActivation.cleanup = "uninstall";
 
     # These app IDs are from using the mas CLI app

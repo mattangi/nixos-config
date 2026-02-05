@@ -128,6 +128,9 @@ fi
 
 _prompt "${YELLOW}Please enter your Github username: ${NC}" GITHUB_USER
 _prompt "${YELLOW}Please enter your Github secrets repository name: ${NC}" GITHUB_SECRETS_REPO
+_prompt "${YELLOW}Please enter your hostname [macos]: ${NC}" HOST_NAME
+HOST_NAME=${HOST_NAME:-macos}
+export HOST_NAME
 
 export GITHUB_USER
 export GITHUB_SECRETS_REPO
@@ -136,9 +139,9 @@ export GITHUB_SECRETS_REPO
 confirm_details() {
   _print "${GREEN}Username: $USERNAME"
   _print "Email: $GIT_EMAIL"
-  _print "Name: $GIT_NAME${NC}"
-
-  _print "${GREEN}Secrets repository: $GITHUB_USER/$GITHUB_SECRETS_REPO${NC}"
+  _print "Name: $GIT_NAME"
+  _print "Secrets repository: $GITHUB_USER/$GITHUB_SECRETS_REPO"
+  _print "Host name: $HOST_NAME${NC}"
 
   _prompt "${YELLOW}Is this correct? yes/no: ${NC}" choice
 
@@ -169,6 +172,7 @@ replace_tokens() {
     LC_ALL=C LANG=C sed -i '' -e "s/%NAME%/$GIT_NAME/g" "$file"
     LC_ALL=C LANG=C sed -i '' -e "s/%GITHUB_USER%/$GITHUB_USER/g" "$file"
     LC_ALL=C LANG=C sed -i '' -e "s/%GITHUB_SECRETS_REPO%/$GITHUB_SECRETS_REPO/g" "$file"
+    LC_ALL=C LANG=C sed -i '' -e "s/%HOST%/$HOST_NAME/g" "$file"
   fi
 }
 
