@@ -47,15 +47,24 @@ in
   # Enable home-manager
   home-manager = {
     useGlobalPkgs = true;
+    useUserPackages = true;
     users.${user} = { pkgs, config, lib, ... }:{
       home = {
         enableNixpkgsReleaseCheck = false;
         packages = pkgs.callPackage ./packages/nixpkgs.nix {};
         file = sharedFiles;
 
-        stateVersion = "23.11";
+        stateVersion = "25.11";
       };
-      
+
+      services = {
+          gpg-agent = {
+          enable = true;
+          enableSshSupport = true;
+          pinentry.package = pkgs.pinentry_mac;
+        };
+      };
+
       zsh = {
         enable = true;
         autocd = false;
