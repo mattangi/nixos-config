@@ -1,4 +1,4 @@
-{ agenix, config, pkgs, ... }:
+{ self, agenix, config, pkgs, ... }:
 
 let 
   user = "%USER%"; 
@@ -29,6 +29,7 @@ in
       trusted-users = [ "@admin" "${user}" ];
       substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
       trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+      experimental-features = "nix-command flakes";
     };
 
     gc = {
@@ -36,10 +37,6 @@ in
       interval = { Weekday = 0; Hour = 2; Minute = 0; };
       options = "--delete-older-than 30d";
     };
-
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
   };
 
   # Turn off NIX_PATH warnings now that we're using flakes
@@ -54,6 +51,9 @@ in
     primaryUser = user;
     stateVersion = 5;
 
+    # Set Git commit hash for darwin-version.
+    configurationRevision = self.rev or self.dirtyRev or null;
+
     defaults = {
       NSGlobalDomain = {
         AppleShowAllExtensions = true;
@@ -64,27 +64,39 @@ in
 
         # 120, 94, 68, 35, 25, 15
         InitialKeyRepeat = 15;
-
-        "com.apple.mouse.tapBehavior" = 1;
-        "com.apple.sound.beep.volume" = 0.0;
-        "com.apple.sound.beep.feedback" = 0;
       };
 
       dock = {
         autohide = false;
+        mineffect = "genie";
         show-recents = false;
         launchanim = true;
         orientation = "bottom";
-        tilesize = 48;
+        magnification = true;
+        tilesize = 64;
+        largesize = 128;
       };
 
       finder = {
         _FXShowPosixPathInTitle = false;
+        ShowStatusBar = true;
+        ShowHardDrivesOnDesktop = true;
+      };
+
+      loginwindow = {
+        GuestEnabled = false;
+        SHOWFULLNAME = true;
       };
 
       trackpad = {
         Clicking = true;
         TrackpadThreeFingerDrag = true;
+        Dragging = true;
+        TrackpadCornerSecondaryClick = 2; # 0 to disable, 1 to set bottom-left corner, 2 to set bottom-right corner. The default is 0.
+      };
+
+      magicmouse = {
+        MouseButtonMode = "TwoButton";
       };
     };
 
