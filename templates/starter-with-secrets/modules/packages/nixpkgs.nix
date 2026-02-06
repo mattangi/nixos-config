@@ -1,10 +1,27 @@
 { pkgs }:
 
 with pkgs; [
-  # General packages for development and system management
-  alacritty
-  bash-completion
+  # Shell, terminal emulator, ...
+  zsh
+  oh-my-zsh
+  zsh-powerlevel10k
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  yazi
+
+  # Base CLI tools
+  colorls
+  zoxide
   bat
+  ripgrep
+  mkalias
+  neovim
+
+
+  # General packages for development and system management
+
+
+  
   btop
   coreutils
   killall
