@@ -1,0 +1,25 @@
+#!/bin/sh -e
+
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+RED='\033[1;31m'
+NC='\033[0m'
+
+DARWIN_REBUILD="/run/current-system/sw/bin/darwin-rebuild"
+SYSTEM_TYPE="aarch64-darwin"
+
+echo "${YELLOW}Available generations:${NC}"
+"$DARWIN_REBUILD" --list-generations
+
+echo "${YELLOW}Enter the generation number for rollback:${NC}"
+read GEN_NUM
+
+if [ -z "$GEN_NUM" ]; then
+  echo "${RED}No generation number entered. Aborting rollback.${NC}"
+  exit 1
+fi
+
+echo "${YELLOW}Rolling back to generation $GEN_NUM...${NC}"
+"$DARWIN_REBUILD" switch --flake .#${SYSTEM_TYPE} --switch-generation "$GEN_NUM"
+
+echo "${GREEN}Rollback to generation $GEN_NUM complete!${NC}"
