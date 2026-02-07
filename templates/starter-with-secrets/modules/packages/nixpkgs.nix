@@ -2,88 +2,142 @@
 
 with pkgs; [
   # Shell, terminal emulator, ...
-  zsh
-  oh-my-zsh
-  zsh-powerlevel10k
-  zsh-autosuggestions
-  zsh-syntax-highlighting
-  yazi
+    zsh
+    oh-my-zsh
+    zsh-powerlevel10k
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    yazi
 
-  # Base CLI tools
-  colorls
-  zoxide
-  bat
-  ripgrep
-  mkalias
-  neovim
+    # Base CLI tools
+    colorls
+    zoxide
+    bat
+    ripgrep
+    neovim
+    mkalias
+    ffmpegthumbnailer
+    ffmpeg
+    p7zip
+    jq
+    poppler
+    fd
+    fzf
+    fzf-git-sh
+    imagemagick
+    dockutil
+    nodejs
+    eza
+    tldr
+    vim
+    
+    # neofetch
+    hyfetch
+    fastfetch
+    lazygit
+    rename
+    
+    # GPG and yubikey
+    gnupg
+    pinentry_mac
+
+    # fonts
+    vimPlugins.mini-icons
+    vimPlugins.nvim-web-devicons
+    
+    # all the other apps
+    obsidian
+    vscode
+    #arc-browser
+    alt-tab-macos
+    #zoom-us
+    aerospace
+    raycast
+  
+  
+  # # Shell, terminal emulator, ...
+  # zsh
+  # oh-my-zsh
+  # zsh-powerlevel10k
+  # zsh-autosuggestions
+  # zsh-syntax-highlighting
+  # yazi
+
+  # # Base CLI tools
+  # colorls
+  # zoxide
+  # bat
+  # ripgrep
+  # mkalias
+  # neovim
 
 
-  # General packages for development and system management
+  # # General packages for development and system management
 
 
   
-  btop
-  coreutils
-  killall
-  openssh
-  sqlite
-  wget
-  zip
+  # btop
+  # coreutils
+  # killall
+  # openssh
+  # sqlite
+  # wget
+  # zip
 
-  # Encryption and security tools
-  age
-  age-plugin-yubikey
-  gnupg
-  libfido2
+  # # Encryption and security tools
+  # age
+  # age-plugin-yubikey
+  # gnupg
+  # libfido2
 
-  # Cloud-related tools and SDKs
-  docker
-  docker-compose
+  # # Cloud-related tools and SDKs
+  # docker
+  # docker-compose
 
-  # Media-related packages
-  dejavu_fonts
-  ffmpeg
-  fd
-  font-awesome
-  hack-font
-  noto-fonts
-  noto-fonts-color-emoji
-  meslo-lgs-nf
+  # # Media-related packages
+  # dejavu_fonts
+  # ffmpeg
+  # fd
+  # font-awesome
+  # hack-font
+  # noto-fonts
+  # noto-fonts-color-emoji
+  # meslo-lgs-nf
 
-  # Node.js development tools
-  nodejs_24
+  # # Node.js development tools
+  # nodejs_24
 
-  # Text and terminal utilities
-  htop
-  jetbrains-mono
-  jq
-  ripgrep
-  tree
-  tmux
-  unrar
-  unzip
-  zsh-powerlevel10k
+  # # Text and terminal utilities
+  # htop
+  # jetbrains-mono
+  # jq
+  # ripgrep
+  # tree
+  # tmux
+  # unrar
+  # unzip
+  # zsh-powerlevel10k
 
-  # Darwin-specific utility
-  dockutil
+  # # Darwin-specific utility
+  # dockutil
 
-  # Development tools
-  curl
-  gh
-  terraform
-  kubectl
-  awscli2
-  lazygit
-  fzf
-  direnv
+  # # Development tools
+  # curl
+  # gh
+  # terraform
+  # kubectl
+  # awscli2
+  # lazygit
+  # fzf
+  # direnv
 
-  # Programming languages and runtimes
-  go
-  rustc
-  cargo
-  openjdk
+  # # Programming languages and runtimes
+  # go
+  # rustc
+  # cargo
+  # openjdk
 
-  # Python packages
-  python3
-  virtualenv
+  # # Python packages
+  # python3
+  # virtualenv
 ]

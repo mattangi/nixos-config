@@ -77,6 +77,7 @@ in
           lfs = {
             enable = true;
           };
+          # signing.key = "8EA44B53C9A903D0";
           extraConfig = {
             init.defaultBranch = "main";
             core = {
@@ -86,6 +87,27 @@ in
             commit.gpgsign = true;
             pull.rebase = true;
             rebase.autoStash = true;
+          };
+        };
+
+        ssh = {
+          enable = true;
+          enableDefaultConfig = false;
+          includes = [
+            "/Users/${user}/.ssh/config_external"
+          ];
+          matchBlocks = {
+            "*" = {
+              # Set the default values we want to keep
+              sendEnv = [ "LANG" "LC_*" ];
+              hashKnownHosts = true;
+            };
+            "github.com" = {
+              identitiesOnly = true;
+              identityFile = [
+                "/Users/${user}/.ssh/id_ed25519"
+              ];
+            };
           };
         };
 
@@ -100,6 +122,12 @@ in
         bat.enable = true;
         eza.enable = true;
         lazygit.enable = true;
+      };
+
+      home.file = {
+        "/Users/${user}/.config/nvim".source = ./dotfiles/nvim;
+        "/Users/${user}/.config/aerospace".source = ./dotfiles/aerospace;
+        "/Users/${user}/.config/ghostty".source = ./dotfiles/ghostty;
       };
 
       # zsh = {
@@ -160,33 +188,7 @@ in
       #     pull.rebase = true;
       #     rebase.autoStash = true;
       #   };
-      # };
-
-      
-      ssh = {
-        enable = true;
-        enableDefaultConfig = false;
-        includes = [
-          "/Users/${user}/.ssh/config_external"
-        ];
-        matchBlocks = {
-          "*" = {
-            # Set the default values we want to keep
-            sendEnv = [ "LANG" "LC_*" ];
-            hashKnownHosts = true;
-          };
-          "github.com" = {
-            identitiesOnly = true;
-            identityFile = [
-              "/Users/${user}/.ssh/id_ed25519"
-            ];
-          };
-        };
-      };
-      
-      # Marked broken Oct 20, 2022 check later to remove this
-      # https://github.com/nix-community/home-manager/issues/3344
-      manual.manpages.enable = false;
+      # };      
     };
   };
 

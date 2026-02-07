@@ -1,32 +1,20 @@
 _:
 
 [
-  # Development Tools
-  "homebrew/cask/docker"
-  "visual-studio-code"
-  "iterm2"
-  "postman"
-  "cursor"
-
-  # Productivity Tools
-  "raycast"
-
-  # Browsers
-  "google-chrome"
-
-  # Communication Tools - Examples (uncomment as needed)
-  # "discord"
-  # "notion"
-  # "slack"
-  # "telegram"
-  # "zoom"
-
-  # Utility Tools - Examples (uncomment as needed)
-  # "syncthing"
-  # "1password"
-  # "rectangle"
-
-  # Entertainment Tools - Examples (uncomment as needed)
-  # "spotify"
-  # "vlc"
+  "the-unarchiver"
+  "font-meslo-lg-nerd-font"
+  "font-symbols-only-nerd-font"
+  "karabiner-elements"
+  "vlc"
+  "chatgpt"
+#    "balenaetcher"
+  "ghostty"
+#    "minecraft"
+  "private-internet-access"
+#    "transmission"
+  "wifiman"
+  "zoom"
+  "arc"
+  "xquartz"
+  "gimp"
 ]
