@@ -10,6 +10,7 @@ with pkgs; [
     yazi
 
     # Base CLI tools
+    wget
     colorls
     zoxide
     bat
@@ -39,6 +40,8 @@ with pkgs; [
     
     # GPG and yubikey
     gnupg
+    age
+    age-plugin-yubikey
     pinentry_mac
 
     # fonts
