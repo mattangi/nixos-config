@@ -5,7 +5,7 @@ let
   name = "%NAME%";
   email = "%EMAIL%";
   # Define the content of your file as a derivation
-  sharedFiles = import ./files.nix { inherit user config pkgs; };
+  #sharedFiles = import ./files.nix { inherit user config pkgs; };
 in
 {
   imports = [
@@ -24,7 +24,7 @@ in
     enable = true;
     brews = pkgs.callPackage ./packages/brewpkgs.nix {};
     casks = pkgs.callPackage ./packages/caskpkgs.nix {};
-    masApps = pkgs.callPackage ./packages/maspkgs.nix {};
+    masApps = import ./packages/maspkgs.nix;
 
     onActivation.cleanup = "zap";
     onActivation.autoUpdate = true;
@@ -52,7 +52,7 @@ in
       home = {
         enableNixpkgsReleaseCheck = false;
         packages = pkgs.callPackage ./packages/nixpkgs.nix {};
-        file = sharedFiles;
+        #file = sharedFiles;
 
         stateVersion = "25.11";
       };
